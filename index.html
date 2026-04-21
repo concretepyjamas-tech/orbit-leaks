@@ -3,104 +3,394 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>OrbitLeaks | PayPal Checkout</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;600;700;800&display=swap" rel="stylesheet">
+  <title>OrbitLeaks ❄️ Discord Store</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
-    body { background: #0a0c10; color: #eef2ff; scroll-behavior: smooth; }
-    .container { max-width: 1300px; margin: 0 auto; padding: 0 24px; }
-    .navbar { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; padding: 20px 0; border-bottom: 1px solid #2d313a; }
-    .logo { font-size: 1.8rem; font-weight: 800; background: linear-gradient(135deg, #a855f7, #5865f2); -webkit-background-clip: text; background-clip: text; color: transparent; }
-    .nav-links { display: flex; gap: 28px; align-items: center; flex-wrap: wrap; }
-    .nav-links a { color: #cbd5e6; text-decoration: none; font-weight: 500; transition: 0.2s; cursor: pointer; }
-    .nav-links a:hover { color: #a855f7; }
-    .stats-strip { display: flex; flex-wrap: wrap; justify-content: space-between; background: linear-gradient(95deg, #101218, #161a24); border-radius: 50px; padding: 14px 28px; margin: 32px 0; border: 1px solid #2b2f3a; }
-    .section-title { font-size: 2rem; font-weight: 700; margin: 48px 0 24px; background: linear-gradient(120deg, #fff, #b9c3ff); -webkit-background-clip: text; background-clip: text; color: transparent; }
-    .filter-buttons { display: flex; gap: 15px; margin-bottom: 30px; flex-wrap: wrap; }
-    .filter-btn { background: #1a1d26; border: none; color: #cdd9ff; padding: 8px 22px; border-radius: 40px; font-weight: 600; cursor: pointer; transition: 0.2s; }
-    .filter-btn.active, .filter-btn:hover { background: #5865f2; color: white; }
-    .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 28px; margin-bottom: 60px; }
-    .product-card { background: #13161f; border-radius: 28px; padding: 22px; border: 1px solid #252a36; transition: 0.2s; }
-    .product-card:hover { transform: translateY(-6px); border-color: #5865f2; }
-    .price { font-size: 1.8rem; font-weight: 800; color: #facc15; margin: 12px 0; }
-    .paypal-button-container { margin-top: 12px; }
-    footer { margin-top: 70px; border-top: 1px solid #1f2430; padding: 40px 0; display: flex; flex-wrap: wrap; justify-content: space-between; }
-    @media (max-width: 700px) { .navbar { flex-direction: column; gap: 16px; } }
-    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(12px); justify-content: center; align-items: center; z-index: 1000; }
-    .modal-content { background: #0e111b; max-width: 500px; width: 90%; border-radius: 32px; padding: 28px; border: 1px solid #5865f2; text-align: center; }
-    .discord-btn { background: #5865f2; display: inline-block; padding: 12px 24px; border-radius: 40px; text-decoration: none; color: white; font-weight: bold; margin: 15px 0; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: radial-gradient(circle at 10% 20%, #cfe9ff, #b0d4ff);
+      color: #13294b;
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+    }
+
+    /* animated snowflakes */
+    .snow {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 10;
+    }
+    .snow i {
+      position: absolute;
+      color: rgba(255,255,255,0.8);
+      animation: fall linear infinite;
+    }
+    @keyframes fall {
+      0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(360deg); opacity: 0.2; }
+    }
+
+    .container {
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 0 24px;
+      position: relative;
+      z-index: 20;
+    }
+
+    /* glassmorphism */
+    .glass {
+      background: rgba(255, 255, 255, 0.5);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.7);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.05);
+    }
+
+    .navbar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 28px;
+      border-radius: 60px;
+      margin: 24px 0;
+      background: rgba(255, 255, 255, 0.4);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.6);
+    }
+
+    .logo {
+      font-size: 1.8rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #1e3c72, #0f2b4f);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 28px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      color: #13294b;
+      text-decoration: none;
+      font-weight: 600;
+      transition: 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: #2b5a8c;
+      transform: scale(1.05);
+    }
+
+    .discord-nav-btn {
+      background: #5865f2;
+      padding: 8px 20px;
+      border-radius: 40px;
+      color: white !important;
+    }
+    .discord-nav-btn:hover {
+      background: #4752c4;
+    }
+
+    .stats-strip {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      border-radius: 50px;
+      padding: 14px 28px;
+      margin: 32px 0;
+      font-weight: 600;
+      background: rgba(255,255,255,0.4);
+      backdrop-filter: blur(8px);
+    }
+
+    .section-title {
+      font-size: 2.2rem;
+      font-weight: 800;
+      margin: 60px 0 24px;
+      text-shadow: 2px 2px 8px rgba(255,255,255,0.5);
+      position: relative;
+      display: inline-block;
+    }
+    .section-title:after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 0;
+      width: 60%;
+      height: 3px;
+      background: linear-gradient(90deg, #1e3c72, transparent);
+      border-radius: 3px;
+    }
+
+    .filter-buttons {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      background: rgba(255,255,255,0.5);
+      border: none;
+      color: #13294b;
+      padding: 8px 22px;
+      border-radius: 40px;
+      font-weight: 600;
+      cursor: pointer;
+      backdrop-filter: blur(4px);
+      transition: 0.2s;
+    }
+
+    .filter-btn.active, .filter-btn:hover {
+      background: #1e3c72;
+      color: white;
+      box-shadow: 0 6px 14px rgba(0,0,0,0.1);
+    }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+      gap: 30px;
+      margin-bottom: 70px;
+    }
+
+    .product-card {
+      border-radius: 32px;
+      padding: 24px 20px;
+      transition: all 0.3s ease;
+      background: rgba(255,255,255,0.5);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.7);
+    }
+
+    .product-card:hover {
+      transform: translateY(-10px);
+      background: rgba(255,255,255,0.75);
+      box-shadow: 0 20px 35px -12px rgba(0,0,0,0.15);
+    }
+
+    .product-icon {
+      font-size: 2.5rem;
+      margin-bottom: 12px;
+    }
+
+    .product-name {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .product-desc {
+      color: #2c3e66;
+      font-size: 0.9rem;
+      margin-bottom: 16px;
+    }
+
+    .price {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: #1e4668;
+      margin: 12px 0;
+    }
+
+    .badge {
+      background: rgba(30,60,114,0.15);
+      padding: 4px 12px;
+      border-radius: 30px;
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+
+    .discord-buy-btn {
+      background: linear-gradient(95deg, #5865f2, #7c3aed);
+      width: 100%;
+      border: none;
+      padding: 12px 0;
+      border-radius: 40px;
+      font-weight: 700;
+      color: white;
+      cursor: pointer;
+      transition: 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .discord-buy-btn:hover {
+      transform: scale(0.98);
+      filter: brightness(1.05);
+    }
+
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(10px);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .modal-content {
+      max-width: 480px;
+      width: 90%;
+      background: rgba(255,255,255,0.95);
+      border-radius: 48px;
+      padding: 32px;
+      text-align: center;
+      border: 1px solid white;
+      box-shadow: 0 25px 45px rgba(0,0,0,0.2);
+      animation: fadeUp 0.3s ease;
+    }
+
+    @keyframes fadeUp {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .modal-content h2 {
+      margin: 16px 0 8px;
+      color: #1e3c72;
+    }
+
+    .discord-invite-btn {
+      background: #5865f2;
+      display: inline-block;
+      padding: 12px 28px;
+      border-radius: 60px;
+      text-decoration: none;
+      color: white;
+      font-weight: bold;
+      margin: 20px 0;
+    }
+
+    footer {
+      margin-top: 60px;
+      border-top: 1px solid rgba(255,255,255,0.5);
+      padding: 32px 0;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      color: #13294b;
+    }
+
+    @media (max-width: 700px) {
+      .navbar { flex-direction: column; gap: 16px; }
+      .section-title { font-size: 1.8rem; }
+    }
   </style>
 </head>
 <body>
+
+<!-- Snowflakes effect -->
+<div class="snow" id="snowContainer"></div>
+
 <div class="container">
   <div class="navbar">
-    <div class="logo"><i class="fab fa-discord"></i> OrbitLeaks</div>
+    <div class="logo"><i class="fab fa-discord"></i> OrbitLeaks ❄️</div>
     <div class="nav-links">
       <a href="#">Home</a>
       <a href="#products">Products</a>
-      <a href="https://discord.gg/uwRUwxM4aA" target="_blank">Join Discord</a>
+      <a href="https://discord.gg/uwRUwxM4aA" target="_blank" class="discord-nav-btn"><i class="fab fa-discord"></i> Join Discord</a>
       <a id="termsLink">Terms</a>
       <a id="faqLink">FAQ</a>
     </div>
   </div>
 
   <div class="stats-strip">
-    <div>🔥 15K+ Bots Delivered</div>
-    <div>⚡ 99.9% Uptime</div>
-    <div>🎧 24/7 Support</div>
-    <div><i class="fab fa-discord"></i> <a href="https://discord.gg/uwRUwxM4aA" target="_blank" style="color:white;">Join Community</a></div>
+    <div><i class="fas fa-robot"></i> 15K+ Bots Delivered</div>
+    <div><i class="fas fa-bolt"></i> 99.9% Uptime</div>
+    <div><i class="fas fa-headset"></i> 24/7 Support</div>
+    <div><i class="fab fa-discord"></i> Ticket System</div>
     <div>⭐ 4.9 Trustpilot</div>
   </div>
 
   <div id="products">
-    <div class="section-title"><i class="fab fa-paypal"></i> One‑Time Payments via PayPal</div>
+    <div class="section-title"><i class="fas fa-ice-cream"></i> Icy Collection – Discord Bots & VIP</div>
     <div class="filter-buttons">
       <button class="filter-btn active" data-filter="all">All</button>
-      <button class="filter-btn" data-filter="bot">🤖 Discord Bots</button>
-      <button class="filter-btn" data-filter="vip">👑 Orbit Leaks VIP</button>
+      <button class="filter-btn" data-filter="bot">🤖 Bots (Monthly)</button>
+      <button class="filter-btn" data-filter="vip">👑 VIP (One-Time)</button>
     </div>
     <div class="products-grid" id="productsGrid"></div>
   </div>
 
-  <!-- Post-payment modal -->
-  <div id="postPaymentModal" class="modal">
+  <!-- Modal for Discord purchase -->
+  <div id="purchaseModal" class="modal">
     <div class="modal-content">
-      <span id="closePostModal" style="float:right; font-size:28px; cursor:pointer;">&times;</span>
+      <span id="closeModal" style="float:right; font-size:28px; cursor:pointer;">&times;</span>
       <i class="fab fa-discord" style="font-size: 48px; color:#5865f2;"></i>
-      <h2 style="margin: 20px 0;">✅ Payment Successful!</h2>
-      <p><strong>To receive your product:</strong></p>
-      <p>1️⃣ Join our Discord server</p>
-      <p>2️⃣ Open a <strong>#ticket</strong> and provide your PayPal transaction ID</p>
-      <a href="https://discord.gg/uwRUwxM4aA" target="_blank" class="discord-btn"><i class="fab fa-discord"></i> Join Discord Now</a>
-      <p style="margin-top: 16px; font-size: 13px;">Our team will deliver your bot or VIP role within minutes.</p>
-      <button id="closePostBtn" style="background:#2d313a; border:none; padding:10px 20px; border-radius:40px; margin-top:10px; cursor:pointer;">Close</button>
+      <h2>Complete Purchase on Discord</h2>
+      <p id="modalProductName" style="font-weight: 700; margin: 8px 0;"></p>
+      <p>To buy this product, please join our Discord server and open a <strong>#ticket</strong>.</p>
+      <p>Our team will assist you with payment and delivery.</p>
+      <a href="https://discord.gg/uwRUwxM4aA" target="_blank" class="discord-invite-btn"><i class="fab fa-discord"></i> Join OrbitLeaks Discord</a>
+      <p style="font-size: 12px; margin-top: 16px;">After joining, go to #ticket-channel and click "Create Ticket".</p>
     </div>
   </div>
 
   <!-- Terms & FAQ modals -->
-  <div id="termsModal" class="modal"><div class="modal-content"><span id="closeTermsModal" style="float:right; cursor:pointer;">&times;</span><h2>Terms</h2><p>All payments via PayPal. After purchase, join Discord and open a ticket with your transaction ID. Digital goods, no refunds. Support available 24/7.</p></div></div>
-  <div id="faqModal" class="modal"><div class="modal-content"><span id="closeFaqModal" style="float:right; cursor:pointer;">&times;</span><h2>FAQ</h2><p><strong>How do I pay?</strong> Click the PayPal button – complete payment on PayPal site.<br><strong>After payment?</strong> Join Discord and open a ticket.<br><strong>Delivery time?</strong> Usually within minutes after verification.</p></div></div>
+  <div id="termsModal" class="modal">
+    <div class="modal-content">
+      <span id="closeTermsModal" style="float:right; cursor:pointer;">&times;</span>
+      <h2>Terms of Service</h2>
+      <p style="margin-top: 16px;">All purchases are handled via Discord ticket. Payment methods include PayPal, crypto, or card. After payment, you will receive your bot or VIP role instantly. Support is 24/7 on Discord.</p>
+    </div>
+  </div>
+  <div id="faqModal" class="modal">
+    <div class="modal-content">
+      <span id="closeFaqModal" style="float:right; cursor:pointer;">&times;</span>
+      <h2>FAQ</h2>
+      <p style="margin-top: 16px;"><strong>How to buy?</strong> Click "Buy via Discord" on any product → join our Discord → open a ticket.<br>
+      <strong>What payment methods?</strong> PayPal, credit card, crypto.<br>
+      <strong>Delivery time?</strong> Usually within minutes after payment confirmation.<br>
+      <strong>Monthly bots?</strong> Yes, bot subscriptions renew monthly – you can cancel anytime via ticket.</p>
+    </div>
+  </div>
 </div>
 
 <footer>
-  <div>© 2025 OrbitLeaks – PayPal Payments · Discord Delivery</div>
-  <div><a href="https://discord.gg/uwRUwxM4aA" style="color:#cbd5e6;"><i class="fab fa-discord"></i> Discord</a></div>
+  <div>© 2025 OrbitLeaks – Icy Edition · Discord Ticket Purchases</div>
+  <div><a href="https://discord.gg/uwRUwxM4aA" style="color:#1e3c72;"><i class="fab fa-discord"></i> Discord</a></div>
 </footer>
 
-<script src="https://www.paypal.com/sdk/js?client-id=AWod2AbT-CLeF59QtcbJOdK85Q_XcATqhazXDUzNIHFuf4qBTkN07k0Wz4HcFkjOjQi4yY1NnTnnAVzW&currency=GBP"></script>
 <script>
-  // Products data – all one-time payments
+  // Product data
   const products = [
-    { id:1, name:"Security Sentinel Bot", desc:"Anti-raid, automod, logs", price:2.99, category:"bot", badge:"🤖 Bot" },
-    { id:2, name:"Mod Titan Pro", desc:"Advanced moderation + warns", price:5.99, category:"bot", badge:"🤖 Bot" },
-    { id:3, name:"Economy+ RPG Bot", desc:"Levels, shop, slots", price:7.99, category:"bot", badge:"🤖 Bot" },
-    { id:4, name:"Ultimate Bot Bundle", desc:"3 bots in one", price:12.99, category:"bot", badge:"🤖 Bundle" },
-    { id:5, name:"Bronze VIP (Orbit Leaks)", desc:"Basic leaks & early access", price:3.99, category:"vip", badge:"👑 Bronze" },
-    { id:6, name:"Silver VIP", desc:"Private channels + giveaways", price:7.99, category:"vip", badge:"👑 Silver" },
-    { id:7, name:"Gold VIP", desc:"Exclusive bots & leaks", price:12.99, category:"vip", badge:"👑 Gold" },
-    { id:8, name:"Platinum VIP", desc:"Priority support & drops", price:19.99, category:"vip", badge:"👑 Platinum" },
-    { id:9, name:"Diamond VIP", desc:"Ultimate leaks + 1on1", price:34.99, category:"vip", badge:"👑 Diamond" }
+    { id:1, name:"Security Sentinel Bot", desc:"Anti-raid, automod, logs", price:2.99, period:"month", category:"bot", icon:"🛡️", badge:"Monthly" },
+    { id:2, name:"Mod Titan Pro", desc:"Advanced moderation + warns", price:5.99, period:"month", category:"bot", icon:"⚙️", badge:"Monthly" },
+    { id:3, name:"Economy+ RPG Bot", desc:"Levels, shop, slots", price:7.99, period:"month", category:"bot", icon:"💰", badge:"Monthly" },
+    { id:4, name:"Ultimate Bot Bundle", desc:"3 bots in one", price:12.99, period:"month", category:"bot", icon:"🎁", badge:"Bundle" },
+    { id:5, name:"Bronze VIP", desc:"Basic leaks & early access", price:3.99, period:"onetime", category:"vip", icon:"🥉", badge:"One-Time" },
+    { id:6, name:"Silver VIP", desc:"Private channels + giveaways", price:7.99, period:"onetime", category:"vip", icon:"🥈", badge:"One-Time" },
+    { id:7, name:"Gold VIP", desc:"Exclusive bots & leaks", price:12.99, period:"onetime", category:"vip", icon:"🥇", badge:"One-Time" },
+    { id:8, name:"Platinum VIP", desc:"Priority support & drops", price:19.99, period:"onetime", category:"vip", icon:"💎", badge:"One-Time" },
+    { id:9, name:"Diamond VIP", desc:"Ultimate leaks + 1on1", price:34.99, period:"onetime", category:"vip", icon:"👑", badge:"One-Time" }
   ];
 
   let activeFilter = "all";
@@ -108,40 +398,24 @@
   function renderProducts() {
     const grid = document.getElementById('productsGrid');
     const filtered = products.filter(p => activeFilter === 'all' || p.category === activeFilter);
-    grid.innerHTML = '';
-    filtered.forEach(product => {
-      const card = document.createElement('div');
-      card.className = 'product-card';
-      card.innerHTML = `
-        <div class="product-name">${product.name}</div>
-        <div class="product-desc">${product.desc}</div>
-        <div class="price">£${product.price.toFixed(2)} <small>one-time</small></div>
-        <div class="badge" style="background:#1e293b; padding:4px 12px; border-radius:30px; display:inline-block;">${product.badge}</div>
-        <div id="paypal-button-${product.id}" class="paypal-button-container"></div>
-      `;
-      grid.appendChild(card);
+    grid.innerHTML = filtered.map(p => `
+      <div class="product-card" data-id="${p.id}">
+        <div class="product-icon">${p.icon}</div>
+        <div class="product-name">${p.name} ${p.period === 'month' ? '<span style="font-size:0.7rem; background:#ff4d4d; padding:2px 8px; border-radius:20px; color:white;">Monthly</span>' : ''}</div>
+        <div class="product-desc">${p.desc}</div>
+        <div class="price">£${p.price.toFixed(2)} <small>${p.period === 'month' ? '/month' : 'one-time'}</small></div>
+        <div class="badge">${p.badge}</div>
+        <button class="discord-buy-btn" data-name="${p.name}"><i class="fab fa-discord"></i> Buy via Discord →</button>
+      </div>
+    `).join('');
 
-      // Render PayPal button for this product
-      paypal.Buttons({
-        style: { layout: 'horizontal', color: 'gold', shape: 'rect', label: 'paypal' },
-        createOrder: function(data, actions) {
-          return actions.order.create({
-            purchase_units: [{
-              description: product.name,
-              amount: { value: product.price, currency_code: 'GBP' }
-            }]
-          });
-        },
-        onApprove: function(data, actions) {
-          return actions.order.capture().then(function(details) {
-            // Show post-payment modal
-            document.getElementById('postPaymentModal').style.display = 'flex';
-          });
-        },
-        onError: function(err) {
-          alert('Payment error. Please try again or contact support.');
-        }
-      }).render(`#paypal-button-${product.id}`);
+    // Attach event listeners to each button
+    document.querySelectorAll('.discord-buy-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const productName = btn.getAttribute('data-name');
+        document.getElementById('modalProductName').innerHTML = `<strong>${productName}</strong> – £${products.find(p => p.name === productName)?.price.toFixed(2)}`;
+        document.getElementById('purchaseModal').style.display = 'flex';
+      });
     });
   }
 
@@ -156,13 +430,31 @@
   });
 
   // Modal controls
-  document.getElementById('termsLink').onclick = () => document.getElementById('termsModal').style.display = 'flex';
-  document.getElementById('faqLink').onclick = () => document.getElementById('faqModal').style.display = 'flex';
+  document.getElementById('closeModal').onclick = () => document.getElementById('purchaseModal').style.display = 'none';
   document.getElementById('closeTermsModal').onclick = () => document.getElementById('termsModal').style.display = 'none';
   document.getElementById('closeFaqModal').onclick = () => document.getElementById('faqModal').style.display = 'none';
-  document.getElementById('closePostModal').onclick = () => document.getElementById('postPaymentModal').style.display = 'none';
-  document.getElementById('closePostBtn').onclick = () => document.getElementById('postPaymentModal').style.display = 'none';
-  window.onclick = (e) => { if(e.target.classList.contains('modal')) e.target.style.display = 'none'; };
+  document.getElementById('termsLink').onclick = () => document.getElementById('termsModal').style.display = 'flex';
+  document.getElementById('faqLink').onclick = () => document.getElementById('faqModal').style.display = 'flex';
+  window.onclick = (e) => {
+    if (e.target.classList.contains('modal')) e.target.style.display = 'none';
+  };
+
+  // Snowflakes effect
+  function createSnow() {
+    const snowContainer = document.getElementById('snowContainer');
+    for (let i = 0; i < 70; i++) {
+      let flake = document.createElement('i');
+      flake.classList.add('fas', 'fa-snowflake');
+      let size = Math.random() * 12 + 6;
+      flake.style.fontSize = size + 'px';
+      flake.style.left = Math.random() * 100 + '%';
+      flake.style.animationDuration = Math.random() * 5 + 4 + 's';
+      flake.style.animationDelay = Math.random() * 5 + 's';
+      flake.style.opacity = Math.random() * 0.6 + 0.2;
+      snowContainer.appendChild(flake);
+    }
+  }
+  createSnow();
 
   renderProducts();
 </script>
